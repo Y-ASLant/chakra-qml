@@ -9,7 +9,6 @@ from .. import __version__, __author__
 
 from .CFrameless import CFrameless
 
-# Available QML components (use in QML with: import Chakra 1.0)
 COMPONENTS = [
     "CActionBar", "CAlert", "CBadge", "CBox", "CButton", "CCard",
     "CCenter", "CCheckbox", "CContainer", "CDialog", "CDrawer",
@@ -19,7 +18,17 @@ COMPONENTS = [
     "CSwitch", "CTag", "CTooltip", "CWindow"
 ]
 
-__all__ = ["CFrameless", "init", "COMPONENTS", "__version__", "__author__"]
+__all__ = [
+    "CFrameless", 
+    "init", 
+    "setup",
+    "register_types",
+    "add_import_path",
+    "get_component_path",
+    "COMPONENTS", 
+    "__version__", 
+    "__author__"
+]
 
 
 def get_component_path():
@@ -28,36 +37,36 @@ def get_component_path():
     return os.path.dirname(os.path.abspath(__file__))
 
 
-def register_qml_types(module_name="Chakra", major_version=1, minor_version=0):
+def register_types(module_name="Chakra", major_version=1, minor_version=0):
     """
-    Register all QML types to the QML engine.
+    Register all Python QML types.
     
     Args:
-        module_name: The QML module name (default: "Chakra")
-        major_version: Major version number (default: 1)
-        minor_version: Minor version number (default: 0)
+        module_name: QML module name (default: "Chakra")
+        major_version: Major version (default: 1)
+        minor_version: Minor version (default: 0)
     
     Example:
-        >>> from PySide6.QtQml import qmlRegisterType
-        >>> from chakra import register_qml_types
-        >>> register_qml_types()
+        from chakra import register_types
+        register_types()
     """
     from PySide6.QtQml import qmlRegisterType
     qmlRegisterType(CFrameless, module_name, major_version, minor_version, "CFrameless")
 
 
-def setup_qml_import_path(engine):
+register_qml_types = register_types
+
+
+def add_import_path(engine):
     """
-    Add the component path to QML engine's import path.
+    Add Chakra component path to QML engine.
     
     Args:
         engine: QQmlApplicationEngine instance
     
     Example:
-        >>> from PySide6.QtQml import QQmlApplicationEngine
-        >>> from chakra import setup_qml_import_path
-        >>> engine = QQmlApplicationEngine()
-        >>> setup_qml_import_path(engine)
+        from chakra import add_import_path
+        add_import_path(engine)
     """
     import os
     component_path = get_component_path()
@@ -65,24 +74,46 @@ def setup_qml_import_path(engine):
     engine.addImportPath(chakra_path)
 
 
+setup_qml_import_path = add_import_path
+
+
+def setup(engine=None, module_name="Chakra", major_version=1, minor_version=0):
+    """
+    Setup Chakra UI QML - register types and configure import path.
+    
+    Args:
+        engine: QQmlApplicationEngine instance (optional, can add later)
+        module_name: QML module name (default: "Chakra")
+        major_version: Major version (default: 1)
+        minor_version: Minor version (default: 0)
+    
+    Example:
+        from PySide6.QtQml import QQmlApplicationEngine
+        from chakra import setup
+        
+        engine = QQmlApplicationEngine()
+        setup(engine)
+    """
+    register_types(module_name, major_version, minor_version)
+    if engine is not None:
+        add_import_path(engine)
+
+
 def init(engine, module_name="Chakra", major_version=1, minor_version=0):
     """
-    Initialize Chakra UI QML - register types and setup import path.
-    
-    This is a convenience function that combines register_qml_types() and
-    setup_qml_import_path() into a single call.
+    Initialize Chakra UI QML (alias for setup).
     
     Args:
         engine: QQmlApplicationEngine instance
-        module_name: The QML module name (default: "Chakra")
-        major_version: Major version number (default: 1)
-        minor_version: Minor version number (default: 0)
+        module_name: QML module name (default: "Chakra")
+        major_version: Major version (default: 1)
+        minor_version: Minor version (default: 0)
     
     Example:
-        >>> from PySide6.QtQml import QQmlApplicationEngine
-        >>> from chakra import init
-        >>> engine = QQmlApplicationEngine()
-        >>> init(engine)
+        from PySide6.QtQml import QQmlApplicationEngine
+        from chakra import init
+        
+        engine = QQmlApplicationEngine()
+        init(engine)
     """
-    register_qml_types(module_name, major_version, minor_version)
-    setup_qml_import_path(engine)
+    setup(engine, module_name, major_version, minor_version)

@@ -5,9 +5,27 @@ This package provides a comprehensive set of QML components with a focus on
 accessibility, themability, and developer experience.
 """
 
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 __author__ = "ASLant"
 
-from .Chakra import CFrameless, init, COMPONENTS, get_component_path
+from .Chakra import (
+    CFrameless,
+    init,
+    setup,
+    register_types,
+    add_import_path,
+    get_component_path,
+    COMPONENTS
+)
 
-__all__ = ["CFrameless", "init", "COMPONENTS", "get_component_path", "__version__"]
+__all__ = [
+    "CFrameless",
+    "init",
+    "setup",
+    "register_types",
+    "add_import_path",
+    "get_component_path",
+    "COMPONENTS",
+    "__version__",
+    "__author__"
+]

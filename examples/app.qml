@@ -53,14 +53,14 @@ CWindow {
                     CButton {
                         text: "Get Started"
                         colorScheme: "blue"
-                        onClicked: Qt.openUrlExternally("https://github.com/Y-ASLant/chakra-ui-qml")
+                        onClicked: Qt.openUrlExternally("https://github.com/Y-ASLant/chakra-qml")
                     }
 
                     CButton {
                         text: "Learn More"
                         variant: "outline"
                         colorScheme: "blue"
-                        onClicked: Qt.openUrlExternally("https://github.com/Y-ASLant/chakra-ui-qml#readme")
+                        onClicked: Qt.openUrlExternally("https://github.com/Y-ASLant/chakra-qml#readme")
                     }
                 }
             }

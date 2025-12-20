@@ -1,5 +1,5 @@
 import QtQuick
-import "../src/components"
+import "../src/Chakra"
 
 Window {
     visible: true

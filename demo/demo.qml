@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Window
-import "../src/components"
+import "../src/Chakra"
 
 Window {
     visible: true
