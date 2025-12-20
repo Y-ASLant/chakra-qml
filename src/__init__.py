@@ -5,7 +5,7 @@ This package provides a comprehensive set of QML components with a focus on
 accessibility, themability, and developer experience.
 """
 
-__version__ = "0.0.3"
+__version__ = "0.0.4"
 __author__ = "ASLant"
 
 from .Chakra import (
