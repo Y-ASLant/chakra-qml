@@ -1,7 +1,7 @@
 pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
-import "../components"
+import Chakra
 import "sections"
 
 CWindow {

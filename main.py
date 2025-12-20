@@ -5,7 +5,7 @@ from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine, qmlRegisterType
 from PySide6.QtQuickControls2 import QQuickStyle
 
-from src.components.CFrameless import CFrameless
+from src.Chakra.CFrameless import CFrameless
 
 # 设置 Qt Quick Controls 样式为 Basic（支持自定义）
 QQuickStyle.setStyle("Basic")

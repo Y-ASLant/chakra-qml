@@ -1,5 +1,5 @@
 import QtQuick
-import "../../components"
+import Chakra
 
 CCard {
     id: root
