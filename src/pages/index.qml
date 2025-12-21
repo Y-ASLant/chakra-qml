@@ -12,6 +12,7 @@ CWindow {
     minimumWidth: 640
     minimumHeight: 480
     title: "Chakra UI 组件库演示"
+    showMaximize: false
 
     titleBarContent: Component {
         Text {

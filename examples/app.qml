@@ -7,6 +7,7 @@ CWindow {
     height: 500
     title: "Chakra UI QML"
     visible: true
+    showMaximize: false
 
     showTitleBar: true
     showThemeToggle: true
