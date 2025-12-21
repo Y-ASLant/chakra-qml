@@ -1,0 +1,12 @@
+[project]
+name = "Chakra-Examples"
+version = "1.0.0"
+description = "Examples for chakra-qml library"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "chakra-qml",
+]
+
+[tool.uv.sources]
+chakra-qml = { workspace = true }

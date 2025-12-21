@@ -19,7 +19,7 @@ qInstallMessageHandler(message_handler)
 app = QGuiApplication(sys.argv)
 QDir.setCurrent(str(Path(__file__).parent))
 
-import source.source_rc
+import source.source_rc  # noqa
 
 qmlRegisterType(CFrameless, "Chakra", 1, 0, "CFrameless")
 

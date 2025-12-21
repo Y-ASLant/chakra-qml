@@ -53,3 +53,8 @@ chakra = "src"
 
 [tool.setuptools.package-data]
 "chakra.Chakra" = ["*.qml", "qmldir", "fonts/*.ttf"]
+
+[tool.uv.workspace]
+members = [
+    "examples",
+]

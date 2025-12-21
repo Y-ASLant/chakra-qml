@@ -184,12 +184,21 @@ class CFrameless(QQuickItem, QAbstractNativeEventFilter):
             return False, 0
 
         elif uMsg == 0x0083:
-            isMaximum = bool(IsZoomed(hwnd))
-            if isMaximum:
-                self.window().setProperty("__margins", 7)
-            else:
-                self.window().setProperty("__margins", 0)
-            return True, 0x0100 | 0x0200
+            if msg.wParam and lParam:
+                isMaximum = bool(IsZoomed(hwnd))
+                params = cast(lParam, LPNCCALCSIZE_PARAMS).contents
+                
+                if isMaximum:
+                    borderX = 8
+                    borderY = 8
+                    
+                    params.rgrc[0].left += borderX
+                    params.rgrc[0].top += borderY
+                    params.rgrc[0].right -= borderX
+                    params.rgrc[0].bottom -= borderY
+                
+                return True, 0
+            return False, 0
 
         elif uMsg == 0x0084:
             # 修复副屏坐标溢出：使用有符号整数处理负坐标
