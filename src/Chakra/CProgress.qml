@@ -88,6 +88,7 @@ Item {
                 enabled: !root.isIndeterminate
                 NumberAnimation {
                     duration: AppStyle.durationNormal
+                    easing.type: Easing.OutCubic
                 }
             }
 

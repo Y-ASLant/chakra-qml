@@ -71,7 +71,10 @@ Switch {
 
             opacity: root.checked ? 1 : 0
             Behavior on opacity {
-                NumberAnimation { duration: AppStyle.durationFast }
+                NumberAnimation {
+                    duration: AppStyle.durationFast
+                    easing.type: Easing.OutCubic
+                }
             }
         }
 
@@ -88,7 +91,10 @@ Switch {
 
             opacity: root.checked ? 0 : 1
             Behavior on opacity {
-                NumberAnimation { duration: AppStyle.durationFast }
+                NumberAnimation {
+                    duration: AppStyle.durationFast
+                    easing.type: Easing.OutCubic
+                }
             }
         }
 

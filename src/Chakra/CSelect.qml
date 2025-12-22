@@ -94,6 +94,7 @@ ComboBox {
         Behavior on rotation {
             NumberAnimation {
                 duration: AppStyle.durationFast
+                easing.type: Easing.OutCubic
             }
         }
     }
@@ -168,12 +169,14 @@ ComboBox {
                 from: 1
                 to: 0
                 duration: AppStyle.durationXFast
+                easing.type: Easing.OutCubic
             }
             NumberAnimation {
                 property: "scale"
                 from: 1
                 to: 0.95
                 duration: AppStyle.durationXFast
+                easing.type: Easing.OutCubic
             }
         }
         transformOrigin: Popup.Top

@@ -38,7 +38,7 @@ Rectangle {
     // 内边距控制
     property bool autoPadding: true
     property int padding: cardPadding
-    
+
     // 内容间距控制
     property alias spacing: bodyContainer.spacing
 
@@ -66,11 +66,11 @@ Rectangle {
         target: hoverArea
         function onContainsMouseChanged() {
             if (hoverArea.containsMouse) {
-                hoverExitTimer.stop()
-                hoverEnterTimer.restart()
+                hoverExitTimer.stop();
+                hoverEnterTimer.restart();
             } else {
-                hoverEnterTimer.stop()
-                hoverExitTimer.restart()
+                hoverEnterTimer.stop();
+                hoverExitTimer.restart();
             }
         }
     }

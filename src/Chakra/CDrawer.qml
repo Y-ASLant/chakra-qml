@@ -113,6 +113,7 @@ Popup {
         Behavior on opacity {
             NumberAnimation {
                 duration: AppStyle.durationNormal
+                easing.type: Easing.OutCubic
             }
         }
     }

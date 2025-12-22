@@ -124,6 +124,7 @@ ItemDelegate {
     Behavior on scale {
         NumberAnimation {
             duration: AppStyle.durationInstant
+            easing.type: Easing.OutCubic
         }
     }
 }

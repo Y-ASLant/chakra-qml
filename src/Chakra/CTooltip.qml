@@ -96,6 +96,7 @@ ToolTip {
             from: 0
             to: 1
             duration: AppStyle.durationFast
+            easing.type: Easing.OutCubic
         }
     }
 
@@ -105,6 +106,7 @@ ToolTip {
             from: 1
             to: 0
             duration: AppStyle.durationFast
+            easing.type: Easing.OutCubic
         }
     }
 }

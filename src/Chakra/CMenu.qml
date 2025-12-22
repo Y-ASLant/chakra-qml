@@ -150,12 +150,14 @@ Item {
                 from: 1
                 to: 0
                 duration: AppStyle.durationXFast
+                easing.type: Easing.OutCubic
             }
             NumberAnimation {
                 property: "scale"
                 from: 1
                 to: 0.95
                 duration: AppStyle.durationXFast
+                easing.type: Easing.OutCubic
             }
         }
 

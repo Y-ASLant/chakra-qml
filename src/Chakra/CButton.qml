@@ -19,6 +19,9 @@ import QtQuick.Controls
 Button {
     id: root
 
+    // 点击时获取焦点，让其他输入框失去焦点
+    focusPolicy: Qt.ClickFocus
+
     // 变体: solid, outline, ghost, link
     property string variant: "solid"
 
@@ -160,12 +163,16 @@ Button {
         State {
             name: "pressed"
             when: root.pressed
-            PropertyChanges { root.scale: 0.96 }
+            PropertyChanges {
+                root.scale: 0.96
+            }
         },
         State {
             name: "normal"
             when: !root.pressed
-            PropertyChanges { root.scale: 1 }
+            PropertyChanges {
+                root.scale: 1
+            }
         }
     ]
 

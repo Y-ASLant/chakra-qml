@@ -73,6 +73,7 @@ Popup {
             from: 0
             to: 1
             duration: AppStyle.durationNormal
+            easing.type: Easing.OutCubic
         }
         NumberAnimation {
             property: "scale"
@@ -89,12 +90,14 @@ Popup {
             from: 1
             to: 0
             duration: AppStyle.durationFast
+            easing.type: Easing.OutCubic
         }
         NumberAnimation {
             property: "scale"
             from: 1
             to: 0.95
             duration: AppStyle.durationFast
+            easing.type: Easing.OutCubic
         }
     }
 
@@ -106,6 +109,7 @@ Popup {
         Behavior on opacity {
             NumberAnimation {
                 duration: AppStyle.durationNormal
+                easing.type: Easing.OutCubic
             }
         }
     }
