@@ -83,14 +83,15 @@ Rectangle {
 
             Behavior on scale {
                 NumberAnimation {
-                    duration: 100
+                    duration: AppStyle.durationXFast
                     easing.type: Easing.OutCubic
                 }
             }
 
             Behavior on opacity {
                 NumberAnimation {
-                    duration: 100
+                    duration: AppStyle.durationXFast
+                    easing.type: Easing.OutCubic
                 }
             }
 

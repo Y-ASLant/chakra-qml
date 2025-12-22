@@ -97,6 +97,7 @@ ApplicationWindow {
             Behavior on color {
                 ColorAnimation {
                     duration: AppStyle.durationNormal
+                    easing.type: Easing.OutCubic
                 }
             }
 
@@ -176,7 +177,8 @@ ApplicationWindow {
 
                     Behavior on color {
                         ColorAnimation {
-                            duration: 150
+                            duration: AppStyle.durationFast
+                            easing.type: Easing.OutCubic
                         }
                     }
 
@@ -207,7 +209,8 @@ ApplicationWindow {
 
                     Behavior on color {
                         ColorAnimation {
-                            duration: 150
+                            duration: AppStyle.durationFast
+                            easing.type: Easing.OutCubic
                         }
                     }
 
@@ -238,7 +241,8 @@ ApplicationWindow {
 
                     Behavior on color {
                         ColorAnimation {
-                            duration: 150
+                            duration: AppStyle.durationFast
+                            easing.type: Easing.OutCubic
                         }
                     }
 
@@ -275,7 +279,8 @@ ApplicationWindow {
 
                     Behavior on color {
                         ColorAnimation {
-                            duration: 150
+                            duration: AppStyle.durationFast
+                            easing.type: Easing.OutCubic
                         }
                     }
 
@@ -287,7 +292,8 @@ ApplicationWindow {
 
                         Behavior on iconColor {
                             ColorAnimation {
-                                duration: 150
+                                duration: AppStyle.durationFast
+                                easing.type: Easing.OutCubic
                             }
                         }
                     }

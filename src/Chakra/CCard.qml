@@ -3,52 +3,20 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Effects
 
-/**
- * CCard - 卡片组件
- * 
- * 内容容器组件，提供多种视觉样式。
- * 
- * @component
- * @example
- * CCard {
- *     title: "Card Title"
- *     description: "This is a description"
- *     variant: "elevated"
- *     
- *     CButton {
- *         text: "Action"
- *     }
- * }
- * 
- * @property {string} title - 卡片标题
- *   默认值: ""
- * 
- * @property {string} description - 卡片描述
- *   默认值: ""
- * 
- * @property {string} variant - 卡片变体
- *   可选值: "elevated" | "outline" | "filled" | "subtle"
- *   默认值: "elevated"
- * 
- * @property {string} size - 尺寸
- *   可选值: "sm" | "md" | "lg"
- *   默认值: "md"
- * 
- * @property {Component} header - 头部自定义内容
- *   默认值: null
- * 
- * @property {Component} footer - 底部自定义内容
- *   默认值: null
- * 
- * @property {boolean} autoPadding - 是否自动内边距
- *   默认值: true
- * 
- * @property {int} padding - 内边距大小
- *   默认值: 16
- * 
- * @property {int} spacing - 内容间距
- *   默认值: 16
- */
+/*
+    CCard - 卡片组件
+
+    == 组件库特有属性 ==
+    title       : 卡片标题，默认 ""
+    description : 卡片描述，默认 ""
+    variant     : 变体，可选 "elevated" | "outline" | "filled" | "subtle"，默认 "elevated"
+    size        : 尺寸，可选 "sm" | "md" | "lg"，默认 "md"
+    header      : 头部自定义内容（Component 类型）
+    footer      : 底部自定义内容（Component 类型）
+    autoPadding : 是否自动内边距，默认 true
+    padding     : 内边距大小，默认 16
+    spacing     : 内容间距，默认 16
+*/
 Rectangle {
     id: root
 
@@ -74,8 +42,38 @@ Rectangle {
     // 内容间距控制
     property alias spacing: bodyContainer.spacing
 
-    // hover 状态
-    property bool hovered: hoverArea.containsMouse
+    // hover 状态 (使用延迟取消避免闪烁)
+    property bool hovered: internal.isHovered
+
+    QtObject {
+        id: internal
+        property bool isHovered: false
+    }
+
+    Timer {
+        id: hoverEnterTimer
+        interval: AppStyle.durationInstant
+        onTriggered: internal.isHovered = true
+    }
+
+    Timer {
+        id: hoverExitTimer
+        interval: AppStyle.durationFast
+        onTriggered: internal.isHovered = false
+    }
+
+    Connections {
+        target: hoverArea
+        function onContainsMouseChanged() {
+            if (hoverArea.containsMouse) {
+                hoverExitTimer.stop()
+                hoverEnterTimer.restart()
+            } else {
+                hoverEnterTimer.stop()
+                hoverExitTimer.restart()
+            }
+        }
+    }
 
     // 尺寸配置
     property int cardPadding: AppStyle.getCardPadding(size)
@@ -100,12 +98,14 @@ Rectangle {
     Behavior on color {
         ColorAnimation {
             duration: AppStyle.durationNormal
+            easing.type: Easing.OutCubic
         }
     }
 
     Behavior on border.color {
         ColorAnimation {
             duration: AppStyle.durationFast
+            easing.type: Easing.OutCubic
         }
     }
 

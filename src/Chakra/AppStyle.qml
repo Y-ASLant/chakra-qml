@@ -149,9 +149,11 @@ QtObject {
     readonly property int inputWidth: 300
 
     // ========== 动画系统 (Animations) ==========
-    readonly property int durationFast: 150
-    readonly property int durationNormal: 200
-    readonly property int durationSlow: 300
+    readonly property int durationInstant: 50    // 即时反馈（按压缩放）
+    readonly property int durationXFast: 80      // 超快（弹出关闭）
+    readonly property int durationFast: 150      // 快速
+    readonly property int durationNormal: 200    // 正常
+    readonly property int durationSlow: 300      // 慢速
 
     // ========== Z-Index 系统 ==========
     readonly property int zIndexDropdown: 1000

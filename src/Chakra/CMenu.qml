@@ -149,13 +149,13 @@ Item {
                 property: "opacity"
                 from: 1
                 to: 0
-                duration: 80
+                duration: AppStyle.durationXFast
             }
             NumberAnimation {
                 property: "scale"
                 from: 1
                 to: 0.95
-                duration: 80
+                duration: AppStyle.durationXFast
             }
         }
 

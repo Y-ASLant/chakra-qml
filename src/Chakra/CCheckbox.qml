@@ -3,33 +3,15 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 
-/**
- * CCheckbox - 复选框组件
- * 
- * 提供标准复选框功能，支持半选状态、多种尺寸和颜色方案。
- * 
- * @component
- * @example
- * CCheckbox {
- *     text: "Accept terms"
- *     checked: false
- *     colorScheme: "primary"
- *     onToggled: console.log("Checked:", checked)
- * }
- * 
- * @property {string} colorScheme - 颜色方案
- *   默认值: "primary"
- * 
- * @property {string} size - 尺寸
- *   可选值: "sm" | "md" | "lg"
- *   默认值: "md"
- * 
- * @property {bool} isIndeterminate - 是否半选状态（部分选中）
- *   默认值: false
- * 
- * @property {bool} isInvalid - 是否无效状态
- *   默认值: false
- */
+/*
+    CCheckbox - 复选框组件
+
+    == 组件库特有属性 ==
+    colorScheme     : 颜色方案，默认 "primary"
+    size            : 尺寸，可选 "sm" | "md" | "lg"，默认 "md"
+    isIndeterminate : 是否半选状态（部分选中），默认 false
+    isInvalid       : 是否无效状态，默认 false
+*/
 CheckBox {
     id: root
 
@@ -77,12 +59,14 @@ CheckBox {
         Behavior on color {
             ColorAnimation {
                 duration: AppStyle.durationFast
+                easing.type: Easing.OutCubic
             }
         }
 
         Behavior on border.color {
             ColorAnimation {
                 duration: AppStyle.durationFast
+                easing.type: Easing.OutCubic
             }
         }
 

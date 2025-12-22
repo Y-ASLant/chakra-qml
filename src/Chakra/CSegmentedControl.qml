@@ -161,6 +161,7 @@ Item {
             Behavior on color {
                 ColorAnimation {
                     duration: AppStyle.durationFast
+                    easing.type: Easing.OutCubic
                 }
             }
         }

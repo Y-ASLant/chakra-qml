@@ -3,8 +3,10 @@ import QtQuick.Layouts
 import Chakra
 
 CWindow {
-    width: 600
-    height: 500
+    width: 640
+    height: 460
+    minimumWidth: 400
+    minimumHeight: 420
     title: "Chakra UI QML"
     visible: true
     showMaximize: false
@@ -15,7 +17,7 @@ CWindow {
     ColumnLayout {
         anchors.centerIn: parent
         spacing: AppStyle.spacing5
-        width: parent.width * 0.8
+        width: parent.width * 0.84
 
         Text {
             text: "Chakra UI QML"
@@ -31,20 +33,33 @@ CWindow {
             color: AppStyle.textSecondary
             Layout.alignment: Qt.AlignHCenter
         }
-
         CCard {
-            title: "Quick Example"
-            variant: "outline"
             Layout.fillWidth: true
-            Layout.topMargin: AppStyle.spacing4
+            Text {
+                text: "Quick Examples"
+                font.pixelSize: 24
+                font.weight: Font.Bold
+                color: AppStyle.textColor
+                width: parent.width
+                horizontalAlignment: Text.AlignHCenter
+            }
+            CSpacer {
+                size: AppStyle.spacing4
+            }
 
             ColumnLayout {
                 spacing: AppStyle.spacing3
                 Layout.fillWidth: true
 
                 CInput {
-                    placeholderText: "Enter your email..."
+                    placeholderText: "Enter your username..."
                     Layout.fillWidth: true
+                }
+
+                CInput {
+                    placeholderText: "Enter your password..."
+                    Layout.fillWidth: true
+                    type: "password"
                 }
 
                 RowLayout {
@@ -61,17 +76,10 @@ CWindow {
                         text: "Learn More"
                         variant: "outline"
                         colorScheme: "blue"
-                        onClicked: Qt.openUrlExternally("https://github.com/Y-ASLant/chakra-qml#readme")
+                        onClicked: Qt.openUrlExternally("https://github.com/Y-ASLant/chakra-qml/issues")
                     }
                 }
             }
-        }
-
-        CAlert {
-            status: "info"
-            description: "29 components ready to use"
-            variant: "subtle"
-            Layout.fillWidth: true
         }
     }
 }

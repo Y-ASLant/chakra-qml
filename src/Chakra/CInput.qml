@@ -3,48 +3,20 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 
-/**
- * CInput - 输入框组件
- * 
- * 提供多种样式的文本输入框，支持验证状态、清空按钮、密码模式等。
- * 
- * @component
- * @example
- * CInput {
- *     placeholderText: "Enter your name"
- *     variant: "outline"
- *     size: "md"
- *     isClearable: true
- *     onTextChanged: console.log("Text:", text)
- * }
- * 
- * @property {string} variant - 输入框变体
- *   可选值: "outline" | "filled" | "flushed"
- *   默认值: "outline"
- * 
- * @property {string} size - 尺寸
- *   可选值: "sm" | "md" | "lg"
- *   默认值: "md"
- * 
- * @property {bool} isInvalid - 是否无效状态（显示错误样式）
- *   默认值: false
- * 
- * @property {bool} isDisabled - 是否禁用
- *   默认值: false
- * 
- * @property {bool} isClearable - 是否显示清空按钮
- *   默认值: false
- * 
- * @property {string} type - 输入类型
- *   可选值: "text" | "password"
- *   默认值: "text"
- * 
- * @property {Component} leftElement - 左侧自定义元素
- *   类型: Component
- * 
- * @property {Component} rightElement - 右侧自定义元素
- *   类型: Component
- */
+/*
+    CInput - 输入框组件
+
+    == 组件库特有属性 ==
+    variant      : 变体，可选 "outline" | "filled" | "flushed"，默认 "outline"
+    type         : 输入类型，可选 "text" | "password"，默认 "text"
+    size         : 尺寸，可选 "sm" | "md" | "lg"，默认 "md"
+    isInvalid    : 是否无效状态（显示错误样式），默认 false
+    isDisabled   : 是否禁用，默认 false
+    isClearable  : 是否显示清除按钮，默认 false
+    maxLength    : 最大长度（0 表示无限制），默认 0
+    leftElement  : 左侧自定义元素，类型 Component
+    rightElement : 右侧自定义元素，类型 Component
+*/
 TextField {
     id: root
 
@@ -125,12 +97,14 @@ TextField {
         Behavior on color {
             ColorAnimation {
                 duration: AppStyle.durationNormal
+                easing.type: Easing.OutCubic
             }
         }
 
         Behavior on border.color {
             ColorAnimation {
                 duration: AppStyle.durationFast
+                easing.type: Easing.OutCubic
             }
         }
 

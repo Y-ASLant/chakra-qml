@@ -87,6 +87,7 @@ Rectangle {
     Behavior on color {
         ColorAnimation {
             duration: AppStyle.durationNormal
+            easing.type: Easing.OutCubic
         }
     }
 

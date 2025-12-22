@@ -3,42 +3,18 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 
-/**
- * CSwitch - 开关组件
- * 
- * 切换开关组件，用于二元选择场景。
- * 
- * @component
- * @example
- * CSwitch {
- *     text: "Enable notifications"
- *     checked: true
- *     colorScheme: "primary"
- *     onToggled: console.log("Switched:", checked)
- * }
- * 
- * @property {string} colorScheme - 颜色方案
- *   默认值: "primary"
- * 
- * @property {string} size - 尺寸
- *   可选值: "sm" | "md" | "lg"
- *   默认值: "md"
- * 
- * @property {bool} isDisabled - 是否禁用
- *   默认值: false
- * 
- * @property {string} trackLabelOn - 开启时轨道上显示的文字
- *   默认值: ""
- * 
- * @property {string} trackLabelOff - 关闭时轨道上显示的文字
- *   默认值: ""
- * 
- * @property {string} thumbIconOn - 开启时滑块上的图标
- *   默认值: ""
- * 
- * @property {string} thumbIconOff - 关闭时滑块上的图标
- *   默认值: ""
- */
+/*
+    CSwitch - 开关组件
+
+    == 组件库特有属性 ==
+    colorScheme   : 颜色方案，默认 "primary"
+    size          : 尺寸，可选 "sm" | "md" | "lg"，默认 "md"
+    isDisabled    : 是否禁用，默认 false
+    trackLabelOn  : 开启时轨道上显示的文字，默认 ""
+    trackLabelOff : 关闭时轨道上显示的文字，默认 ""
+    thumbIconOn   : 开启时滑块上的图标，默认 ""
+    thumbIconOff  : 关闭时滑块上的图标，默认 ""
+*/
 Switch {
     id: root
 
@@ -78,6 +54,7 @@ Switch {
         Behavior on color {
             ColorAnimation {
                 duration: AppStyle.durationNormal
+                easing.type: Easing.OutCubic
             }
         }
 
@@ -138,7 +115,7 @@ Switch {
 
             Behavior on scale {
                 NumberAnimation {
-                    duration: 100
+                    duration: AppStyle.durationFast
                     easing.type: Easing.OutCubic
                 }
             }

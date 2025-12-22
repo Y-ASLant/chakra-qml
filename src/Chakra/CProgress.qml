@@ -3,44 +3,18 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Effects
 
-/**
- * CProgress - 进度条组件
- * 
- * 显示任务进度，支持条纹样式、动画和不确定状态。
- * 
- * @component
- * @example
- * CProgress {
- *     value: 75
- *     colorScheme: "primary"
- *     hasStripe: true
- *     isAnimated: true
- * }
- * 
- * @property {real} value - 进度值（0-100）
- *   默认值: 0
- * 
- * @property {string} colorScheme - 颜色方案
- *   默认值: "primary"
- * 
- * @property {string} size - 尺寸
- *   可选值: "xs" | "sm" | "md" | "lg"
- *   默认值: "md"
- * 
- * @property {bool} hasStripe - 是否显示条纹效果
- *   默认值: false
- * 
- * @property {bool} isAnimated - 是否动画条纹（需配合 hasStripe）
- *   默认值: false
- *   注意: 使用 Timer 限制帧率，优化性能
- * 
- * @property {bool} animationEnabled - 是否启用动画（全局开关）
- *   默认值: true
- *   用途: 在低性能设备上禁用动画以提升性能
- * 
- * @property {bool} isIndeterminate - 是否不确定状态（加载中）
- *   默认值: false
- */
+/*
+    CProgress - 进度条组件
+
+    == 组件库特有属性 ==
+    value            : 进度值（0-100），默认 0
+    colorScheme      : 颜色方案，默认 "primary"
+    size             : 尺寸，可选 "xs" | "sm" | "md" | "lg"，默认 "md"
+    hasStripe        : 是否显示条纹效果，默认 false
+    isAnimated       : 是否动画条纹（需配合 hasStripe），默认 false
+    animationEnabled : 是否启用动画（全局开关），默认 true
+    isIndeterminate  : 是否不确定状态（加载中），默认 false
+*/
 Item {
     id: root
 

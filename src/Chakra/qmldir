@@ -27,6 +27,7 @@ CScrollArea CScrollArea.qml
 CScrollBar CScrollBar.qml
 CSegmentedControl CSegmentedControl.qml
 CSelect CSelect.qml
+CSpacer CSpacer.qml
 CSpinner CSpinner.qml
 CSwitch CSwitch.qml
 CTag CTag.qml
