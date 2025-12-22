@@ -1,18 +1,19 @@
 module sections
 
-DemoButtons 1.0 DemoButtons.qml
-DemoInputs 1.0 DemoInputs.qml
-DemoSelectors 1.0 DemoSelectors.qml
-DemoSegmentedControl 1.0 DemoSegmentedControl.qml
-DemoFeedback 1.0 DemoFeedback.qml
-DemoBadgeTags 1.0 DemoBadgeTags.qml
-DemoProgress 1.0 DemoProgress.qml
-DemoCards 1.0 DemoCards.qml
-DemoPagination 1.0 DemoPagination.qml
-DemoIcons 1.0 DemoIcons.qml
-DemoMenu 1.0 DemoMenu.qml
-DemoScrollArea 1.0 DemoScrollArea.qml
-DemoOverlays 1.0 DemoOverlays.qml
-DemoActionBar 1.0 DemoActionBar.qml
-DemoLayouts 1.0 DemoLayouts.qml
-DemoTooltip 1.0 DemoTooltip.qml
+DemoButtons DemoButtons.qml
+DemoInputs DemoInputs.qml
+DemoSelectors DemoSelectors.qml
+DemoSegmentedControl DemoSegmentedControl.qml
+DemoFeedback DemoFeedback.qml
+DemoBadgeTags DemoBadgeTags.qml
+DemoProgress DemoProgress.qml
+DemoCards DemoCards.qml
+DemoPagination DemoPagination.qml
+DemoIcons DemoIcons.qml
+DemoIconsAll DemoIconsAll.qml
+DemoMenu DemoMenu.qml
+DemoScrollArea DemoScrollArea.qml
+DemoOverlays DemoOverlays.qml
+DemoActionBar DemoActionBar.qml
+DemoLayouts DemoLayouts.qml
+DemoTooltip DemoTooltip.qml

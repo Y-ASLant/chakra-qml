@@ -139,6 +139,18 @@ class CFrameless(QQuickItem, QAbstractNativeEventFilter):
     def onDestruction(self):
         QGuiApplication.instance().removeNativeEventFilter(self)
 
+    @Slot()
+    def refreshShadow(self):
+        """窗口重新显示时刷新 DWM 阴影"""
+        if sys.platform == "win32" and self.window():
+            hwnd = self.window().winId()
+            if hwnd:
+                style = GetWindowLongPtrW(hwnd, -16)
+                SetWindowLongPtrW(hwnd, -16, style | 0x00010000 | 0x00040000 | 0x00C00000)
+                SetWindowPos(hwnd, None, 0, 0, 0, 0, 0x0004 | 0x0200 | 0x0002 | 0x0001 | 0x0020)
+                setShadow(hwnd)
+                self._current = hwnd
+
     def componentComplete(self):
         if self._disabled:
             return
@@ -154,7 +166,6 @@ class CFrameless(QQuickItem, QAbstractNativeEventFilter):
         self.window().installEventFilter(self)
 
         if sys.platform == "win32":
-            # Windows 原生消息处理
             QGuiApplication.instance().installNativeEventFilter(self)
             hwnd = self.window().winId()
             style = GetWindowLongPtrW(hwnd, -16)
@@ -163,7 +174,6 @@ class CFrameless(QQuickItem, QAbstractNativeEventFilter):
                 hwnd, None, 0, 0, 0, 0, 0x0004 | 0x0200 | 0x0002 | 0x0001 | 0x0020
             )
             setShadow(hwnd)
-        # Linux/macOS 使用 Qt 事件过滤器即可（已通过 installEventFilter 安装）
 
     def nativeEventFilter(self, eventType, message):
         if sys.platform != "win32":

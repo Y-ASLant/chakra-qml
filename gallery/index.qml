@@ -85,6 +85,16 @@ CWindow {
                 color: AppStyle.textSecondary
             }
 
+            CButton {
+                text: "查看所有内置图标(1530)"
+                onClicked: iconsAllWindow.show()
+            }
+
+            DemoIconsAll {
+                id: iconsAllWindow
+                visible: false
+            }
+
             // ========== 组件演示 ==========
             DemoButtons {}
             DemoInputs {}
@@ -95,17 +105,11 @@ CWindow {
             DemoBadgeTags {}
             DemoProgress {}
             DemoTooltip {}
-
             DemoMenu {}
-
             DemoCards {}
-
             DemoLayouts {}
-
             DemoPagination {}
-
             DemoScrollArea {}
-
             DemoOverlays {
                 onOpenDialog: demoDialog.open()
                 onOpenDrawer: demoDrawer.open()

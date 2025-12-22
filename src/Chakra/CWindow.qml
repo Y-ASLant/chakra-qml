@@ -81,6 +81,13 @@ ApplicationWindow {
         }
     }
 
+    // 窗口显示时重新初始化 DWM 阴影
+    onVisibleChanged: {
+        if (visible && frameless) {
+            frameless.refreshShadow();
+        }
+    }
+
     // 内容容器（原生 DWM 阴影不占用空间，无需边距）
     Item {
         anchors.fill: parent
