@@ -15,8 +15,10 @@ CDialog CDialog.qml
 CDrawer CDrawer.qml
 CFlex CFlex.qml
 CFlow CFlow.qml
+CGridView CGridView.qml
 CIcon CIcon.qml
 CInput CInput.qml
+CListView CListView.qml
 CMenu CMenu.qml
 CMenuGroup CMenuGroup.qml
 CMenuItem CMenuItem.qml
