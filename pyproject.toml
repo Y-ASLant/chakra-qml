@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "chakra-qml"
-version = "0.0.6"
+version = "0.0.7"
 description = "A modern QML component library inspired by Chakra UI"
 readme = "README.md"
 requires-python = ">=3.8"
