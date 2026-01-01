@@ -9,7 +9,6 @@ CCard {
     Column {
         width: parent.width
         spacing: AppStyle.spacing4
-        padding: AppStyle.spacing6
 
         Text {
             text: "布局组件"
@@ -220,10 +219,11 @@ CCard {
 
                 CContainer {
                     size: "sm"
-                    height: parent.height
+                    anchors.fill: parent
 
                     Rectangle {
-                        anchors.fill: parent
+                        width: parent.width
+                        height: 80
                         color: Qt.rgba(AppStyle.primaryColor.r, AppStyle.primaryColor.g, AppStyle.primaryColor.b, 0.1)
                         radius: AppStyle.radiusSm
                         border.width: 2
@@ -261,10 +261,11 @@ CCard {
 
                 CContainer {
                     size: "md"
-                    height: parent.height
+                    anchors.fill: parent
 
                     Rectangle {
-                        anchors.fill: parent
+                        width: parent.width
+                        height: 80
                         color: Qt.rgba(AppStyle.successColor.r, AppStyle.successColor.g, AppStyle.successColor.b, 0.1)
                         radius: AppStyle.radiusSm
                         border.width: 2
@@ -302,10 +303,11 @@ CCard {
 
                 CContainer {
                     size: "lg"
-                    height: parent.height
+                    anchors.fill: parent
 
                     Rectangle {
-                        anchors.fill: parent
+                        width: parent.width
+                        height: 80
                         color: Qt.rgba(AppStyle.warningColor.r, AppStyle.warningColor.g, AppStyle.warningColor.b, 0.1)
                         radius: AppStyle.radiusSm
                         border.width: 2

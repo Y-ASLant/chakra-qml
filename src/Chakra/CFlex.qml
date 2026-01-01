@@ -51,8 +51,20 @@ Item {
 
         GridLayout {
             id: layout
-            width: parent.width
-            height: parent.height
+            width: {
+                if (root.direction === "row" && (root.justify === "between" || root.justify === "around"))
+                    return parent.width;
+                if (root.direction === "row" && root.justify !== "center" && root.justify !== "end")
+                    return parent.width;
+                return implicitWidth;
+            }
+            height: {
+                if (root.direction === "column" && (root.justify === "between" || root.justify === "around"))
+                    return parent.height;
+                if (root.direction === "column" && root.justify !== "center" && root.justify !== "end")
+                    return parent.height;
+                return implicitHeight;
+            }
 
             columns: root.direction === "row" ? (root.wrap ? -1 : children.length) : 1
             rows: root.direction === "column" ? (root.wrap ? -1 : children.length) : 1
@@ -77,15 +89,19 @@ Item {
                 return 0;
             }
 
-            // 应用对齐方式
+            // 应用主轴对齐方式
             anchors.horizontalCenter: {
                 if (root.direction === "row" && root.justify === "center")
                     return parent.horizontalCenter;
+                if (root.direction === "column")
+                    return undefined;
                 return undefined;
             }
             anchors.verticalCenter: {
                 if (root.direction === "column" && root.justify === "center")
                     return parent.verticalCenter;
+                if (root.direction === "row")
+                    return undefined;
                 return undefined;
             }
             anchors.right: {
