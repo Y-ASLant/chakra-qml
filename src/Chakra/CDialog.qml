@@ -14,13 +14,13 @@ import QtQuick.Controls
     showCloseButton     : 是否显示关闭按钮，默认 true
     closeOnOverlayClick : 是否点击遮罩关闭，默认 true
     closeOnEsc          : 是否按 ESC 关闭，默认 true
-    footer              : 底部按钮区（Component 类型）
+    footer              : 底部按钮区���Component 类型）
 
     == 信号 ==
     dialogOpened : 对话框打开时触发
     dialogClosed : 对话框关闭时触发
 */
-Popup {
+CPopupBase {
     id: root
 
     // 尺寸: xs, sm, md, lg, xl, full
@@ -29,20 +29,8 @@ Popup {
     // 图标
     property string icon: ""
 
-    // 标题
-    property string title: ""
-
     // 描述
     property string description: ""
-
-    // 是否显示关闭按钮
-    property bool showCloseButton: true
-
-    // 是否点击遮罩关闭
-    property bool closeOnOverlayClick: true
-
-    // 是否按 ESC 关闭
-    property bool closeOnEsc: true
 
     // 内容
     default property alias content: contentContainer.data
@@ -62,17 +50,6 @@ Popup {
     onClosed: dialogClosed()
     width: dialogWidth
     height: Math.min(mainColumn.implicitHeight, parent ? parent.height - 64 : 600)
-
-    modal: true
-    focus: true
-    closePolicy: {
-        var policy = Popup.NoAutoClose;
-        if (closeOnOverlayClick)
-            policy |= Popup.CloseOnPressOutside;
-        if (closeOnEsc)
-            policy |= Popup.CloseOnEscape;
-        return policy;
-    }
 
     // 进入/退出动画
     enter: Transition {
@@ -109,36 +86,11 @@ Popup {
         }
     }
 
-    // 遮罩层
-    Overlay.modal: Rectangle {
-        color: AppStyle.overlayColor
-        radius: AppStyle.windowRadius
-
-        Behavior on opacity {
-            NumberAnimation {
-                duration: AppStyle.durationNormal
-                easing.type: Easing.OutCubic
-            }
-        }
-    }
-
-    background: Rectangle {
-        color: AppStyle.surfaceColor
-        radius: AppStyle.radiusLg
-
-        Behavior on color {
-            ColorAnimation {
-                duration: AppStyle.durationNormal
-                easing.type: Easing.OutCubic
-            }
-        }
-    }
-
     contentItem: Column {
         id: mainColumn
         spacing: 0
 
-        // 头部（标题 + 关闭按钮）
+        // 头部
         Item {
             width: parent.width
             height: visible ? AppStyle.spacing12 : 0
@@ -168,26 +120,14 @@ Popup {
                 }
             }
 
-            // 关闭按钮
-            CIcon {
-                id: dialogCloseIcon
+            CPopupCloseButton {
                 visible: root.showCloseButton
-                name: "x"
-                size: 18
-                iconColor: AppStyle.textMuted
                 anchors.right: parent.right
                 anchors.rightMargin: AppStyle.spacing4
                 anchors.top: parent.top
                 anchors.topMargin: AppStyle.spacing4
-
-                MouseArea {
-                    anchors.fill: parent
-                    anchors.margins: -8
-                    cursorShape: Qt.PointingHandCursor
-                    hoverEnabled: true
-                    onClicked: root.close()
-                    onContainsMouseChanged: dialogCloseIcon.iconColor = containsMouse ? AppStyle.textColor : AppStyle.textMuted
-                }
+                size: 18
+                popup: root
             }
         }
 
@@ -212,28 +152,11 @@ Popup {
             clip: true
 
             readonly property int contentPadding: AppStyle.spacing6
+            readonly property int targetWidth: width - contentPadding * 2
 
-            readonly property int targetWidth: contentContainer.width - contentContainer.contentPadding * 2
-
-            // 防抖定时器，避免频繁调用updateChildrenWidth
-            Timer {
-                id: updateTimer
-                interval: 16
-                repeat: false
-                onTriggered: {
-                    AppStyle.updateChildrenWidth(contentContainer, contentContainer.targetWidth);
-                    for (let i = 0; i < contentContainer.children.length; i++) {
-                        let child = contentContainer.children[i];
-                        if (child && child.implicitWidth !== undefined) {
-                            child.x = contentContainer.contentPadding;
-                        }
-                    }
-                }
+            CContentWidthUpdater {
+                target: contentContainer
             }
-
-            Component.onCompleted: updateTimer.start()
-            onChildrenChanged: updateTimer.restart()
-            onWidthChanged: updateTimer.restart()
         }
 
         // 底部按钮区

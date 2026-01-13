@@ -11,6 +11,7 @@ CCard CCard.qml
 CCenter CCenter.qml
 CCheckbox CCheckbox.qml
 CContainer CContainer.qml
+CContentWidthUpdater CContentWidthUpdater.qml
 CDialog CDialog.qml
 CDrawer CDrawer.qml
 CFlex CFlex.qml
@@ -25,6 +26,9 @@ CMenuGroup CMenuGroup.qml
 CMenuItem CMenuItem.qml
 CMenuSeparator CMenuSeparator.qml
 CPagination CPagination.qml
+CPopupBase CPopupBase.qml
+CPopupCloseButton CPopupCloseButton.qml
+CPopupDivider CPopupDivider.qml
 CProgress CProgress.qml
 CScrollArea CScrollArea.qml
 CScrollBar CScrollBar.qml
@@ -36,4 +40,6 @@ CSwitch CSwitch.qml
 CTag CTag.qml
 CTooltip CTooltip.qml
 CWindow CWindow.qml
+CWindowButton CWindowButton.qml
+CWindowControls CWindowControls.qml
 singleton Icons Icons.qml

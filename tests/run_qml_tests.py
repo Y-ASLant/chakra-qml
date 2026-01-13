@@ -9,7 +9,6 @@ project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 QDir.setCurrent(str(project_root))
 
-import source.source_rc
 
 QQuickStyle.setStyle("Basic")
 
@@ -34,34 +33,34 @@ passed_tests = []
 for test_file in test_files:
     print(f"\nRunning: {test_file.name}")
     print("-" * 50)
-    
+
     engine.clearComponentCache()
-    
+
     for obj in engine.rootObjects():
         engine.deleteLater()
-    
+
     engine.load(str(test_file))
-    
+
     if not engine.rootObjects():
         print(f"ERROR: Failed to load test: {test_file.name}")
         failed_tests.append(test_file.name)
         continue
-    
+
     test_obj = engine.rootObjects()[0]
-    
-    if test_obj.property('running'):
-        print(f"Test is running...")
+
+    if test_obj.property("running"):
+        print("Test is running...")
         QGuiApplication.processEvents()
-    
-    if test_obj.property('completed'):
+
+    if test_obj.property("completed"):
         passed_tests.append(test_file.name)
         print(f"✓ PASSED: {test_file.name}")
     else:
         failed_tests.append(test_file.name)
         print(f"✗ FAILED: {test_file.name}")
-        if test_obj.property('failureCount') > 0:
+        if test_obj.property("failureCount") > 0:
             print(f"  Failures: {test_obj.property('failureCount')}")
-        if test_obj.property('errorCount') > 0:
+        if test_obj.property("errorCount") > 0:
             print(f"  Errors: {test_obj.property('errorCount')}")
 
 print("\n" + "=" * 50)

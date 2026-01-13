@@ -9,7 +9,7 @@ if not tests_dir.exists():
     sys.exit(1)
 
 loader = unittest.TestLoader()
-suite = loader.discover(str(tests_dir), pattern='test_*.py')
+suite = loader.discover(str(tests_dir), pattern="test_*.py")
 
 runner = unittest.TextTestRunner(verbosity=2)
 result = runner.run(suite)

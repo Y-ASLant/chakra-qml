@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(where:*)",
+      "Bash(ty check:*)",
+      "Bash(ruff check:*)",
+      "Bash(dir:*)",
+      "Bash(uv run build-chakra:*)",
+      "Bash(python:*)",
+      "Bash(uv run python:*)",
+      "Bash(timeout:*)",
+      "Bash(taskkill:*)",
+      "Bash(cd:*)",
+      "Bash(uv run .main.py)",
+      "Bash(uv run:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(uv build:*)",
+      "Bash(uv publish:*)"
+    ]
+  }
+}

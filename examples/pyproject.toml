@@ -5,7 +5,7 @@ description = "Examples for chakra-qml library"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "chakra-qml>=0.0.5",
+    "chakra-qml>=0.1.0",
     "pip>=25.3",
 ]
 

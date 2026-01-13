@@ -22,16 +22,16 @@ __all__ = [
 def build():
     """Build Chakra QML resources"""
     logger.info("Starting Chakra QML build process...")
-    
+
     cwd = (Path(__file__).parent / "../../../").resolve()
     chakra_src = cwd / "src" / "Chakra"
-    
+
     if not chakra_src.exists():
         logger.error(f"Chakra source directory not found: {chakra_src}")
         return
-    
+
     logger.info(f"Building from: {chakra_src}")
-    
+
     gen_qmldir(chakra_src, "Chakra", "1.0")
-    
+
     logger.success("Chakra QML build completed!")
