@@ -59,42 +59,83 @@ Item {
     property Item _windowRoot: null
     property real _popupX: 0
     property real _popupY: 0
-    
-    // 更新弹出层位置
-    function updatePopupPosition() {
-        // 缓存窗口根元素
+
+    // 常量
+    readonly property int _gap: 8
+    readonly property int _padding: 4
+
+    // 位置配置映射
+    readonly property var _placementConfig: ({
+        top: { transformOrigin: Popup.Bottom, arrowRotation: 0 },
+        bottom: { transformOrigin: Popup.Top, arrowRotation: 180 },
+        left: { transformOrigin: Popup.Right, arrowRotation: -90 },
+        right: { transformOrigin: Popup.Left, arrowRotation: 90 }
+    })
+
+    // 检查是否应该打开（非禁用且鼠标在触发区）
+    function _shouldOpen(): bool {
+        return !root.disabled && triggerArea.containsMouse;
+    }
+
+    // 检查是否应该关闭（鼠标都不在触发区和弹出区）
+    function _shouldClose(): bool {
+        return !triggerArea.containsMouse && !popupArea.containsMouse;
+    }
+
+    // 获取窗口根元素
+    function _getWindowRoot(): Item {
         if (!_windowRoot) {
             var item = root;
             while (item.parent) item = item.parent;
             _windowRoot = item;
         }
-        
-        var gap = 8;
-        var pos = root.mapToItem(_windowRoot, 0, 0);
-        var pw = _windowRoot.width, ph = _windowRoot.height;
+        return _windowRoot;
+    }
+
+    // 边界限制，确保坐标在有效范围内
+    function _clamp(value: real, min: real, max: real): real {
+        return Math.max(min, Math.min(value, max));
+    }
+
+    // 计算弹出层位置
+    function _calculatePosition(pos: point, windowWidth: real, windowHeight: real): point {
         var tx, ty;
-        
+        var pw = popup.width;
+        var ph = popup.height;
+        var rw = root.width;
+        var rh = root.height;
+
         switch (root.placement) {
         case "left":
-            tx = pos.x - popup.width - gap;
-            ty = pos.y + (root.height - popup.height) / 2;
+            tx = pos.x - pw - _gap;
+            ty = pos.y + (rh - ph) / 2;
             break;
         case "right":
-            tx = pos.x + root.width + gap;
-            ty = pos.y + (root.height - popup.height) / 2;
+            tx = pos.x + rw + _gap;
+            ty = pos.y + (rh - ph) / 2;
             break;
         case "top":
-            tx = pos.x + (root.width - popup.width) / 2;
-            ty = pos.y - popup.height - gap;
+            tx = pos.x + (rw - pw) / 2;
+            ty = pos.y - ph - _gap;
             break;
         default: // bottom
-            tx = pos.x + (root.width - popup.width) / 2;
-            ty = pos.y + root.height + gap;
+            tx = pos.x + (rw - pw) / 2;
+            ty = pos.y + rh + _gap;
         }
-        
-        // 边界检测
-        _popupX = Math.max(4, Math.min(tx, pw - popup.width - 4));
-        _popupY = Math.max(4, Math.min(ty, ph - popup.height - 4));
+
+        return {
+            x: _clamp(tx, _padding, windowWidth - pw - _padding),
+            y: _clamp(ty, _padding, windowHeight - ph - _padding)
+        };
+    }
+
+    // 更新弹出层位置
+    function updatePopupPosition() {
+        var winRoot = _getWindowRoot();
+        var pos = root.mapToItem(winRoot, 0, 0);
+        var result = _calculatePosition(pos, winRoot.width, winRoot.height);
+        _popupX = result.x;
+        _popupY = result.y;
     }
 
     // 触发器
@@ -125,7 +166,7 @@ Item {
         id: openTimer
         interval: root.delay
         onTriggered: {
-            if (triggerArea.containsMouse && !root.disabled) {
+            if (_shouldOpen()) {
                 root.updatePopupPosition();
                 popup.open();
             }
@@ -137,7 +178,7 @@ Item {
         id: closeTimer
         interval: root.closeDelay
         onTriggered: {
-            if (!triggerArea.containsMouse && !popupArea.containsMouse) {
+            if (_shouldClose()) {
                 popup.close();
             }
         }
@@ -192,16 +233,8 @@ Item {
         }
 
         transformOrigin: {
-            switch (root.placement) {
-            case "top":
-                return Popup.Bottom;
-            case "left":
-                return Popup.Right;
-            case "right":
-                return Popup.Left;
-            default:
-                return Popup.Top;
-            }
+            var config = _placementConfig[root.placement];
+            return config ? config.transformOrigin : Popup.Top;
         }
 
         background: Item {
@@ -212,41 +245,26 @@ Item {
                 width: 12
                 height: 8
 
+                // 位置计算：左右方向靠边缘定位，上下方向居中
                 x: {
-                    switch (root.placement) {
-                    case "left":
+                    if (root.placement === "left")
                         return parent.width - 1;
-                    case "right":
+                    if (root.placement === "right")
                         return -width + 1;
-                    default:
-                        return (parent.width - width) / 2;
-                    }
+                    return (parent.width - width) / 2;
                 }
 
                 y: {
-                    switch (root.placement) {
-                    case "top":
+                    if (root.placement === "top")
                         return parent.height - 1;
-                    case "bottom":
+                    if (root.placement === "bottom")
                         return -height + 1;
-                    default:
-                        return (parent.height - height) / 2;
-                    }
+                    return (parent.height - height) / 2;
                 }
 
                 rotation: {
-                    switch (root.placement) {
-                    case "top":
-                        return 0;
-                    case "bottom":
-                        return 180;
-                    case "left":
-                        return -90;
-                    case "right":
-                        return 90;
-                    default:
-                        return 0;
-                    }
+                    var config = _placementConfig[root.placement];
+                    return config ? config.arrowRotation : 0;
                 }
 
                 onPaint: {

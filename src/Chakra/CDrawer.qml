@@ -20,7 +20,7 @@ import QtQuick.Controls
     drawerOpened : 抽屉打开时触发
     drawerClosed : 抽屉关闭时触发
 */
-Popup {
+CPopupBase {
     id: root
 
     // 方向: left, right, top, bottom
@@ -31,18 +31,6 @@ Popup {
 
     // 边距偏移（用于无边框窗口）
     property int edgeMargin: 0
-
-    // 标题
-    property string title: ""
-
-    // 是否显示关闭按钮
-    property bool showCloseButton: true
-
-    // 是否点击遮罩关闭
-    property bool closeOnOverlayClick: true
-
-    // 是否按 ESC 关闭
-    property bool closeOnEsc: true
 
     // 内容
     default property alias content: contentContainer.data
@@ -57,22 +45,22 @@ Popup {
     onOpened: drawerOpened()
     onClosed: drawerClosed()
 
-    // 位置和尺寸缓存
+    // 位置和尺寸
     readonly property bool isHorizontal: placement === "left" || placement === "right"
     readonly property bool isVertical: placement === "top" || placement === "bottom"
-    
+
     readonly property int targetX: {
         if (placement === "left") return edgeMargin;
         if (placement === "right") return parent ? parent.width - width - edgeMargin : 0;
         return edgeMargin;
     }
-    
+
     readonly property int targetY: {
         if (placement === "top") return edgeMargin;
         if (placement === "bottom") return parent ? parent.height - height - edgeMargin : 0;
         return edgeMargin;
     }
-    
+
     readonly property int hidePosition: {
         if (placement === "left") return -width;
         if (placement === "right") return parent ? parent.width : width;
@@ -85,16 +73,7 @@ Popup {
     width: isHorizontal ? size : (parent ? parent.width - edgeMargin * 2 : 400)
     height: isVertical ? size : (parent ? parent.height - edgeMargin * 2 : 600)
 
-    modal: true
-    focus: true
-    closePolicy: {
-        var policy = Popup.NoAutoClose;
-        if (closeOnOverlayClick)
-            policy |= Popup.CloseOnPressOutside;
-        if (closeOnEsc)
-            policy |= Popup.CloseOnEscape;
-        return policy;
-    }
+    __popupRadius: edgeMargin > 0 ? AppStyle.radiusLg : 0
 
     // 进入动画
     enter: Transition {
@@ -117,33 +96,8 @@ Popup {
         }
     }
 
-    // 遮罩层
-    Overlay.modal: Rectangle {
-        color: AppStyle.overlayColor
-        radius: AppStyle.windowRadius
-
-        Behavior on opacity {
-            NumberAnimation {
-                duration: AppStyle.durationNormal
-                easing.type: Easing.OutCubic
-            }
-        }
-    }
-
-    background: Rectangle {
-        color: AppStyle.surfaceColor
-        radius: root.edgeMargin > 0 ? AppStyle.radiusLg : 0
-
-        Behavior on color {
-            ColorAnimation {
-                duration: AppStyle.durationNormal
-                easing.type: Easing.OutCubic
-            }
-        }
-    }
-
     contentItem: Item {
-        // Header（固定在顶部）
+        // Header
         Item {
             id: header
             anchors.top: parent.top
@@ -163,38 +117,24 @@ Popup {
                 anchors.verticalCenter: parent.verticalCenter
             }
 
-            CIcon {
-                id: drawerCloseIcon
+            CPopupCloseButton {
                 visible: root.showCloseButton
-                name: "x"
-                size: 20
-                iconColor: AppStyle.textMuted
                 anchors.right: parent.right
                 anchors.rightMargin: AppStyle.spacing4
                 anchors.verticalCenter: parent.verticalCenter
-
-                MouseArea {
-                    anchors.fill: parent
-                    anchors.margins: -8
-                    cursorShape: Qt.PointingHandCursor
-                    hoverEnabled: true
-                    onClicked: root.close()
-                    onContainsMouseChanged: drawerCloseIcon.iconColor = containsMouse ? AppStyle.textColor : AppStyle.textMuted
-                }
+                popup: root
             }
         }
 
-        Rectangle {
+        CPopupDivider {
             id: headerBorder
             anchors.top: header.bottom
             width: parent.width
-            height: root.title !== "" ? 1 : 0
-            color: AppStyle.borderColor
             visible: root.title !== ""
             z: 2
         }
 
-        // Body（可滚动内容区）
+        // Body
         Flickable {
             id: bodyScroll
             anchors.top: headerBorder.bottom
@@ -215,42 +155,29 @@ Popup {
                 width: bodyScroll.width
                 height: childrenRect.height
 
-                readonly property int contentPadding: AppStyle.spacing4
-                readonly property int targetWidth: contentContainer.width - contentContainer.contentPadding * 2
-
-                // 防抖定时器，避免频繁调用updateChildrenWidth
-                Timer {
-                    id: updateTimer
-                    interval: 16
-                    repeat: false
-                    onTriggered: {
-                        AppStyle.updateChildrenWidth(contentContainer, contentContainer.targetWidth);
-                        for (let i = 0; i < contentContainer.children.length; i++) {
-                            let child = contentContainer.children[i];
-                            if (child && child.implicitWidth !== undefined) {
-                                child.x = contentContainer.contentPadding;
-                            }
-                        }
-                    }
+                CContentWidthUpdater {
+                    target: contentContainer
+                    contentPadding: AppStyle.spacing4
                 }
 
-                Component.onCompleted: updateTimer.start()
-                onChildrenChanged: updateTimer.restart()
-                onWidthChanged: updateTimer.restart()
+                function scheduleWidthUpdate() {
+                    children[0].scheduleUpdate();
+                }
+
+                onChildrenChanged: scheduleWidthUpdate()
+                onWidthChanged: scheduleWidthUpdate()
             }
         }
 
-        Rectangle {
+        CPopupDivider {
             id: footerBorder
             anchors.bottom: footerLoader.top
             width: parent.width
-            height: footerLoader.visible ? 1 : 0
-            color: AppStyle.borderColor
             visible: footerLoader.visible
             z: 2
         }
 
-        // Footer（固定在底部）
+        // Footer
         Loader {
             id: footerLoader
             anchors.bottom: parent.bottom

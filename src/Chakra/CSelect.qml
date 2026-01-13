@@ -17,53 +17,30 @@ import QtQuick.Controls
 ComboBox {
     id: root
 
-    // 变体: outline, filled, flushed
     property string variant: "outline"
-
-    // 尺寸: sm, md, lg
     property string size: "md"
-
-    // 占位符文本
     property string placeholder: "Select option"
-
-    // 是否无效
     property bool isInvalid: false
-
-    // 是否禁用
     property bool isDisabled: false
-
-    // 是否可搜索
     property bool isSearchable: false
 
-    // 搜索文本 (内部使用)
     property string searchText: ""
 
-    // 缓存的筛选模型
-    property var _cachedFilteredModel: []
-
-    // 筛选后的模型（只读访问）
-    readonly property var filteredModel: _cachedFilteredModel
-
-    function updateFilteredModel() {
+    readonly property var filteredModel: {
         if (!isSearchable || searchText === "" || !model) {
-            _cachedFilteredModel = model;
-            return;
+            return model || [];
         }
-        var result = [];
         var search = searchText.toLowerCase();
-        for (var i = 0; i < model.length; i++) {
-            var item = model[i];
-            if (String(item).toLowerCase().indexOf(search) !== -1) {
-                result.push(item);
-            }
-        }
-        _cachedFilteredModel = result;
+        return model.filter(function(item) {
+            return String(item).toLowerCase().indexOf(search) !== -1;
+        });
     }
 
-    onModelChanged: updateFilteredModel()
-    onSearchTextChanged: updateFilteredModel()
-    onIsSearchableChanged: updateFilteredModel()
-    Component.onCompleted: updateFilteredModel()
+    function getBorderColor(isFocused: bool): color {
+        if (isInvalid) return AppStyle.borderError;
+        if (isFocused) return AppStyle.borderFocus;
+        return AppStyle.borderColor;
+    }
 
     property int inputHeight: AppStyle.getInputHeight(size)
     property int fontSize: AppStyle.getFontSize(size)
@@ -101,21 +78,10 @@ ComboBox {
 
     background: Rectangle {
         radius: root.variant === "flushed" ? 0 : AppStyle.radiusLg
-
-        color: {
-            if (root.variant === "filled")
-                return AppStyle.backgroundColor;
-            return "transparent";
-        }
-
+        color: root.variant === "filled" ? AppStyle.backgroundColor : "transparent"
         border.width: root.variant === "flushed" ? 0 : 1
-        border.color: {
-            if (root.isInvalid)
-                return AppStyle.borderError;
-            if (root.popup.visible)
-                return AppStyle.borderFocus;
-            return AppStyle.borderColor;
-        }
+        border.color: root.getBorderColor(root.popup.visible)
+        opacity: root.enabled ? 1 : 0.5
 
         Behavior on border.color {
             ColorAnimation {
@@ -129,16 +95,8 @@ ComboBox {
             anchors.bottom: parent.bottom
             width: parent.width
             height: root.popup.visible ? 2 : 1
-            color: {
-                if (root.isInvalid)
-                    return AppStyle.borderError;
-                if (root.popup.visible)
-                    return AppStyle.borderFocus;
-                return AppStyle.borderColor;
-            }
+            color: root.getBorderColor(root.popup.visible)
         }
-
-        opacity: root.enabled ? 1 : 0.5
     }
 
     popup: Popup {
@@ -188,14 +146,11 @@ ComboBox {
             }
         }
 
-        onClosed: {
-            root.searchText = "";
-        }
+        onClosed: root.searchText = ""
 
         contentItem: Column {
             spacing: 4
 
-            // 搜索框
             TextField {
                 id: searchField
                 visible: root.isSearchable
@@ -216,15 +171,9 @@ ComboBox {
                 }
 
                 onTextChanged: root.searchText = text
-
-                Component.onCompleted: {
-                    if (root.isSearchable && root.popup.visible)
-                        forceActiveFocus();
-                }
             }
 
             ListView {
-                id: listView
                 clip: true
                 width: parent.width
                 implicitHeight: Math.min(contentHeight, 200)
