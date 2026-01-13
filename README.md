@@ -6,7 +6,7 @@ English | [简体中文](README.zh-CN.md)
 
 ## Features
 
-- 🎨 **35+ Components** - Buttons, Inputs, Cards, Menus, Dialogs and more
+- 🎨 **40+ Components** - Buttons, Inputs, Cards, Menus, Dialogs and more
 - 🌓 **Dark Mode** - Built-in theme system with light/dark modes
 - ⚡ **High Performance** - Optimized rendering with minimal overhead
 - 🪟 **Frameless Window** - Native Windows DWM shadow and custom title bar
