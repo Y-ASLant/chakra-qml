@@ -52,7 +52,7 @@ Row {
         id: minimizeButton
         visible: root.showMinimize
         iconName: "minus"
-        onClicked: if (root.targetWindow) root.targetWindow.showMinimized()
+        onClicked: if (root.targetWindow) root.targetWindow.framelessInstance.showMinimized()
     }
 
     CWindowButton {
@@ -62,9 +62,9 @@ Row {
         onClicked: {
             if (!root.targetWindow) return;
             if (root.targetWindow.visibility === Window.Maximized) {
-                root.targetWindow.showNormal();
+                root.targetWindow.framelessInstance.showNormal();
             } else {
-                root.targetWindow.showMaximized();
+                root.targetWindow.framelessInstance.showMaximized();
             }
         }
     }
