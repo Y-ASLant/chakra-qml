@@ -392,3 +392,42 @@ docs/
 - ⏳ 属性验证
 - ✅ 统一默认值（CTag colorScheme 改为 primary）
 - ✅ 组件使用文档（已创建 QUICK_REFERENCE.md）
+- ✅ AppStyle 主题切换批量更新机制（已添加 batchUpdate/setTheme/themeChanged 信号）
+
+---
+
+## AppStyle 主题切换优化
+
+### 新增 API
+
+```qml
+// 切换主题（推荐）
+AppStyle.toggleTheme()
+
+// 直接设置主题
+AppStyle.setTheme(true)   // 深色模式
+AppStyle.setTheme(false)  // 浅色模式
+
+// 批量更新（在回调中进行多个操作，一次性应用）
+AppStyle.batchUpdate(() => {
+    AppStyle.setTheme(true);
+    // 其他操作...
+})
+
+// 监听主题变化
+Connections {
+    target: AppStyle
+    function onThemeChanging(toDark) {
+        // 主题即将切换，可以暂停动画等
+    }
+    function onThemeChanged(isDark) {
+        // 主题切换完成
+    }
+}
+```
+
+### 优化原理
+
+1. **延迟确认**：使用 `_pendingDark` + `_confirmedDark` 双缓冲，通过 Timer 延迟到下一帧确认
+2. **预计算颜色**：使用 `_darkColors` / `_lightColors` 映射表，避免运行时三元运算
+3. **单次更新**：所有颜色属性绑定到 `_currentThemeColors`，主题切换时一次性更新映射表
